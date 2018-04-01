@@ -19,9 +19,15 @@
 
 `define gent_constraints_utils(TYPE) \
   local static rand gent_constraints::policy #(TYPE) global_policies[$]; \
+  local rand gent_constraints::policy #(TYPE) instance_policies[$]; \
   \
   static function void add_global_constraint(gent_constraints::policy #(TYPE) c); \
     global_policies.push_back(c); \
+  endfunction \
+  \
+  function void add_instance_constraint(gent_constraints::policy #(TYPE) c); \
+    instance_policies.push_back(c); \
+    c.set_object(this); \
   endfunction \
   \
   function void pre_randomize(); \

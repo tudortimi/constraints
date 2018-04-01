@@ -41,13 +41,33 @@ module test;
   initial begin
     automatic constrained_item i = new();
     automatic only_even_values only_even_vals = new();
-
     constrained_item::add_global_constraint(only_even_vals);
+
     repeat (100) begin
       if (!i.randomize())
         $fatal(0, "Randomization failure");
       if (i.val % 2 == 1)
-        $fatal(0, $sformatf("Unexpected 'val' seen", i.val));
+        $fatal(0, $sformatf("Unexpected 'val' seen: %0d", i.val));
+    end
+  end
+
+
+  class only_zero extends gent_constraints::policy #(item);
+    constraint c {
+      object.val == 0;
+    }
+  endclass
+
+  initial begin
+    automatic constrained_item i = new();
+    automatic only_zero  only_0 = new();
+    i.add_instance_constraint(only_0);
+
+    repeat (100) begin
+      if (!i.randomize())
+        $fatal(0, "Randomization failure");
+      if (i.val != 0)
+        $fatal(0, $sformatf("Unexpected 'val' seen: %0d", i.val));
     end
   end
 
