@@ -60,7 +60,7 @@ module test;
 
   initial begin
     automatic constrained_item i = new();
-    automatic only_zero  only_0 = new();
+    automatic only_zero only_0 = new();
     i.add_instance_constraint(only_0);
 
     repeat (100) begin
@@ -68,6 +68,37 @@ module test;
         $fatal(0, "Randomization failure");
       if (i.val != 0)
         $fatal(0, $sformatf("Unexpected 'val' seen: %0d", i.val));
+    end
+  end
+
+
+
+  class bigger_item;
+
+    rand constrained_item i0;
+    rand constrained_item i1;
+
+
+    function new();
+      i0 = new();
+      i1 = new();
+    endfunction
+
+  endclass
+
+
+  initial begin
+    bigger_item it = new();
+    automatic only_zero only_0 = new();
+    constrained_item::add_global_constraint(only_0);
+
+    repeat (100) begin
+      if (!it.randomize())
+        $fatal(0, "Randomization failure");
+      if (it.i0.val != 0)
+        $fatal(0, $sformatf("Unexpected 'val' seen for i0: %0d", it.i0.val));
+      if (it.i1.val != 0)
+        $fatal(0, $sformatf("Unexpected 'val' seen for i0: %0d", it.i1.val));
     end
   end
 
