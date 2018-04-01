@@ -25,6 +25,10 @@
     global_policies.push_back(c); \
   endfunction \
   \
+  static function void remove_all_global_constraints(); \
+    global_policies.delete(); \
+  endfunction \
+  \
   function void add_instance_constraint(gent_constraints::policy #(TYPE) c); \
     instance_policies.push_back(c); \
     c.set_object(this); \

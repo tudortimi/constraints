@@ -52,6 +52,24 @@ module test;
   end
 
 
+  initial begin
+    automatic int unsigned num_odd;
+    automatic constrained_item i = new();
+    automatic only_even_values only_even_vals = new();
+    constrained_item::add_global_constraint(only_even_vals);
+    constrained_item::remove_all_global_constraints();
+
+    repeat (100) begin
+      if (!i.randomize())
+        $fatal(0, "Randomization failure");
+      if (i.val % 2 == 1)
+        num_odd++;
+    end
+    if (num_odd == 0)
+      $fatal(0, "Havent't seen any odd vals");
+  end
+
+
   class only_zero extends gent_constraints::policy #(item);
     constraint c {
       object.val == 0;
