@@ -13,15 +13,15 @@
 // limitations under the License.
 
 
-`ifndef GENT_CONSTRAINTS_MACROS
-`define GENT_CONSTRAINTS_MACROS
+`ifndef GENT_RANDOMIZATION_MACROS
+`define GENT_RANDOMIZATION_MACROS
 
 
-`define gent_constraints_utils(TYPE) \
-  local static gent_constraints::policy #(TYPE) global_policies[$]; \
-  local rand gent_constraints::policy #(TYPE) instance_policies[$]; \
+`define gent_randomization_utils(TYPE) \
+  local static gent_randomization::policy #(TYPE) global_policies[$]; \
+  local rand gent_randomization::policy #(TYPE) instance_policies[$]; \
   \
-  static function void add_global_constraint(gent_constraints::policy #(TYPE) c); \
+  static function void add_global_constraint(gent_randomization::policy #(TYPE) c); \
     global_policies.push_back(c); \
   endfunction \
   \
@@ -29,8 +29,8 @@
     global_policies.delete(); \
   endfunction \
   \
-  function void add_instance_constraint(gent_constraints::policy #(TYPE) c); \
-    gent_constraints::policy #(TYPE) c_copy = new c; \
+  function void add_instance_constraint(gent_randomization::policy #(TYPE) c); \
+    gent_randomization::policy #(TYPE) c_copy = new c; \
     c_copy.set_object(this); \
     instance_policies.push_back(c_copy); \
   endfunction \

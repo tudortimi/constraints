@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-package gent_constraints;
+package gent_randomization;
 
   `include "policy.svh"
 
