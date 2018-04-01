@@ -124,9 +124,28 @@ module test;
 
 
   initial begin
-    bigger_item it = new();
+    automatic bigger_item it = new();
     automatic only_zero only_0 = new();
     constrained_item::add_global_constraint(only_0);
+
+    repeat (100) begin
+      if (!it.randomize())
+        $fatal(0, "Randomization failure");
+      if (it.i0.val != 0)
+        $fatal(0, $sformatf("Unexpected 'val' seen for i0: %0d", it.i0.val));
+      if (it.i1.val != 0)
+        $fatal(0, $sformatf("Unexpected 'val' seen for i0: %0d", it.i1.val));
+    end
+  end
+
+
+  initial begin
+    automatic bigger_item it = new();
+    automatic only_zero only_0 = new();
+    it.i0.add_instance_constraint(only_0);
+    it.i1.add_instance_constraint(only_0);
+    constrained_item::remove_all_global_constraints();
+
 
     repeat (100) begin
       if (!it.randomize())

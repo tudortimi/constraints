@@ -30,8 +30,9 @@
   endfunction \
   \
   function void add_instance_constraint(gent_constraints::policy #(TYPE) c); \
-    instance_policies.push_back(c); \
-    c.set_object(this); \
+    gent_constraints::policy #(TYPE) c_copy = new c; \
+    c_copy.set_object(this); \
+    instance_policies.push_back(c_copy); \
   endfunction \
   \
   function void remove_all_instance_constraints(); \
@@ -40,8 +41,7 @@
   \
   function void pre_randomize(); \
     foreach (global_policies[i]) begin \
-      gent_constraints::policy #(TYPE) c = new global_policies[i]; \
-      add_instance_constraint(c); \
+      add_instance_constraint(global_policies[i]); \
     end \
   endfunction
 
