@@ -18,30 +18,30 @@
 
 
 `define gent_randomization_utils(TYPE) \
-  local static gent_randomization::policy #(TYPE) global_policies[$]; \
-  local rand gent_randomization::policy #(TYPE) instance_policies[$]; \
+  local static gent_randomization::abstract_constraint #(TYPE) global_constraints[$]; \
+  local rand gent_randomization::abstract_constraint #(TYPE) instance_constraints[$]; \
   \
-  static function void add_global_constraint(gent_randomization::policy #(TYPE) c); \
-    global_policies.push_back(c); \
+  static function void add_global_constraint(gent_randomization::abstract_constraint #(TYPE) c); \
+    global_constraints.push_back(c); \
   endfunction \
   \
   static function void remove_all_global_constraints(); \
-    global_policies.delete(); \
+    global_constraints.delete(); \
   endfunction \
   \
-  function void add_instance_constraint(gent_randomization::policy #(TYPE) c); \
-    gent_randomization::policy #(TYPE) c_copy = new c; \
+  function void add_instance_constraint(gent_randomization::abstract_constraint #(TYPE) c); \
+    gent_randomization::abstract_constraint #(TYPE) c_copy = new c; \
     c_copy.set_object(this); \
-    instance_policies.push_back(c_copy); \
+    instance_constraints.push_back(c_copy); \
   endfunction \
   \
   function void remove_all_instance_constraints(); \
-    instance_policies.delete(); \
+    instance_constraints.delete(); \
   endfunction \
   \
   function void pre_randomize(); \
-    foreach (global_policies[i]) begin \
-      add_instance_constraint(global_policies[i]); \
+    foreach (global_constraints[i]) begin \
+      add_instance_constraint(global_constraints[i]); \
     end \
   endfunction
 

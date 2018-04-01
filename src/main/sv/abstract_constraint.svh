@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-virtual class policy #(type T = int);
+virtual class abstract_constraint #(type T = int);
 
   protected T object;
 

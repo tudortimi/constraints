@@ -25,7 +25,7 @@ module test;
 
 
   // A reusable constraint
-  class only_even_values extends gent_randomization::policy #(item);
+  class only_even_values extends gent_randomization::abstract_constraint #(item);
     constraint c {
       object.val % 2 == 0;
     }
@@ -70,7 +70,7 @@ module test;
   end
 
 
-  class only_zero extends gent_randomization::policy #(item);
+  class only_zero extends gent_randomization::abstract_constraint #(item);
     constraint c {
       object.val == 0;
     }

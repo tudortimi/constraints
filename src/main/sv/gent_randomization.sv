@@ -15,6 +15,6 @@
 
 package gent_randomization;
 
-  `include "policy.svh"
+  `include "abstract_constraint.svh"
 
 endpackage
