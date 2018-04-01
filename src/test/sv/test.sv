@@ -90,6 +90,24 @@ module test;
   end
 
 
+  initial begin
+    automatic int unsigned num_non_zero;
+    automatic constrained_item i = new();
+    automatic only_zero only_0 = new();
+    i.add_instance_constraint(only_0);
+    i.remove_all_instance_constraints();
+
+    repeat (100) begin
+      if (!i.randomize())
+        $fatal(0, "Randomization failure");
+      if (i.val != 0)
+        num_non_zero++;
+    end
+    if (num_non_zero == 0)
+      $fatal(0, "Havent't seen any non-zero vals");
+  end
+
+
 
   class bigger_item;
 

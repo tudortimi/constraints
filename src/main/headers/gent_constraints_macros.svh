@@ -34,6 +34,10 @@
     c.set_object(this); \
   endfunction \
   \
+  function void remove_all_instance_constraints(); \
+    instance_policies.delete(); \
+  endfunction \
+  \
   function void pre_randomize(); \
     foreach (global_policies[i]) begin \
       gent_constraints::policy #(TYPE) c = new global_policies[i]; \
