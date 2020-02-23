@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-package gent_randomization;
+package constraints;
 
   `include "abstract_constraint.svh"
 

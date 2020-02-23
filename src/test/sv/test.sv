@@ -15,7 +15,7 @@
 
 module test;
 
-  `include "gent_randomization_macros.svh"
+  `include "constraints_macros.svh"
 
 
   // An 'item' class defined in a separate package
@@ -25,7 +25,7 @@ module test;
 
 
   // A reusable constraint
-  class only_even_values extends gent_randomization::abstract_constraint #(item);
+  class only_even_values extends constraints::abstract_constraint #(item);
     constraint c {
       object.val % 2 == 0;
     }
@@ -34,7 +34,7 @@ module test;
 
   // Class that adds constraint infrastructure to 'item'
   class constrained_item extends item;
-    `gent_randomization_utils(item)
+    `constraints_utils(item)
   endclass
 
 
@@ -70,7 +70,7 @@ module test;
   end
 
 
-  class only_zero extends gent_randomization::abstract_constraint #(item);
+  class only_zero extends constraints::abstract_constraint #(item);
     constraint c {
       object.val == 0;
     }
