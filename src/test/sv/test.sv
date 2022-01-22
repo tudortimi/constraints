@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Tudor Timisescu (verificationgentleman.com)
+// Copyright 2018-2022 Tudor Timisescu (verificationgentleman.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -154,6 +154,57 @@ module test;
         $fatal(0, $sformatf("Unexpected 'val' seen for i0: %0d", it.i0.val));
       if (it.i1.val != 0)
         $fatal(0, $sformatf("Unexpected 'val' seen for i0: %0d", it.i1.val));
+    end
+  end
+
+
+  class array_of_items;
+
+    static const int unsigned MAX_NUM_ITEMS = 10;
+
+    rand item items[];
+
+    constraint legal_number_of_items {
+      items.size() < MAX_NUM_ITEMS;
+    }
+
+    function void pre_randomize();
+      items = new[MAX_NUM_ITEMS];
+      foreach (items[i])
+        items[i] = new();
+    endfunction
+
+  endclass
+
+
+  class constrainable_array_of_items extends array_of_items;
+
+    `constraints_utils(array_of_items)
+
+  endclass
+
+
+  class all_items_equal_to_five extends constraints::abstract_constraint #(array_of_items);
+
+    constraint c {
+      foreach (object.items[i])
+        object.items[i].val == 5;
+    }
+
+  endclass
+
+
+  initial begin
+    automatic constrainable_array_of_items array = new();
+    automatic all_items_equal_to_five all_items_equal_to_5 = new();
+    array.add_instance_constraint(all_items_equal_to_5);
+
+    repeat (100) begin
+      if (!array.randomize())
+        $fatal(0, "Randomization failure");
+      foreach (array.items[i])
+        if (array.items[i].val != 5)
+          $fatal(0, $sformatf("Unexpected 'val' seen for item %0d: %0d", i, array.items[i].val));
     end
   end
 
