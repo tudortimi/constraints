@@ -1,3 +1,11 @@
 plugins {
     id 'com.verificationgentleman.gradle.hdvl.systemverilog' version '0.2.1'
 }
+
+sourceSets {
+    main {
+        svHeaders {
+            srcDirs = ['src/main/headers']
+        }
+    }
+}
