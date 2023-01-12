@@ -1,3 +1,7 @@
 *.log
 *.history
 xcelium.d
+
+# Gradle
+.gradle/
+build/
