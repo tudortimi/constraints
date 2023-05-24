@@ -1,4 +1,4 @@
-// Copyright 2018-2022 Tudor Timisescu (verificationgentleman.com)
+// Copyright 2018-2023 Tudor Timisescu (verificationgentleman.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,33 +18,22 @@
 
 
 `define constraints_utils(TYPE) \
-  local static constraints::abstract_constraint #(TYPE) global_constraints[$]; \
-  local rand constraints::abstract_constraint #(TYPE) instance_constraints[$]; \
+  local rand constraints::constraints_helper #(TYPE) __constraints_helper = new(this); \
   \
   static function void add_global_constraint(constraints::abstract_constraint #(TYPE) c); \
-    global_constraints.push_back(c); \
+    constraints::constraints_helper #(TYPE)::add_global_constraint(c); \
   endfunction \
   \
   static function void remove_all_global_constraints(); \
-    global_constraints.delete(); \
+    constraints::constraints_helper #(TYPE)::remove_all_global_constraints(); \
   endfunction \
   \
   function void add_instance_constraint(constraints::abstract_constraint #(TYPE) c); \
-    constraints::abstract_constraint #(TYPE) c_copy = new c; \
-    c_copy.set_object(this); \
-    instance_constraints.push_back(c_copy); \
+    __constraints_helper.add_instance_constraint(c); \
   endfunction \
   \
   function void remove_all_instance_constraints(); \
-    instance_constraints.delete(); \
-  endfunction \
-  \
-  function void pre_randomize(); \
-    super.pre_randomize(); \
-    \
-    foreach (global_constraints[i]) begin \
-      add_instance_constraint(global_constraints[i]); \
-    end \
+    __constraints_helper.remove_all_instance_constraints(); \
   endfunction
 
 
