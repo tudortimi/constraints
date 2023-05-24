@@ -5,3 +5,8 @@ xcelium.d
 # Gradle
 .gradle/
 build/
+
+# DVT
+.dvt/build.config.xml
+.dvt/*.build.auto.*
+.dvt/*.ls
