@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-class constraints_helper #(type TYPE = int);
+/* package private */ class constraints_helper #(type TYPE = int);
 
   local const TYPE object;
 
