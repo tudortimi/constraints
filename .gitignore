@@ -8,3 +8,4 @@ build/
 
 # DVT
 .dvt/*.build.auto.*
+.dvt/*.ls
